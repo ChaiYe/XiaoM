@@ -80,7 +80,6 @@
         </a>
       </li>
     </ul>
-    <p>汤圆酱</p>
   </div>
 </template>
 
@@ -89,7 +88,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to XIAO MI'
+      msg: 'Welcome to Your Vue.js App'
     }
   }
 }
