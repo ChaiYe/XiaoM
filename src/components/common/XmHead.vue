@@ -7,7 +7,7 @@
         </a>
       </h1>
       <div class="head-login">
-        <a href="#" class="login-btn" v-if="!loginStatus" >登录</a>
+        <a href="#" class="login-btn" v-if="!loginStatus" @click="dialogStatus = true">登录</a>
         <div class="login-info clearfix" v-if="loginStatus">
           <span>sunyu</span>
           <a href="#" class="logout-btn">退出</a>
@@ -18,87 +18,92 @@
         </div>
       </div>
     </div>
+    <XmLogin v-if="dialogStatus" @closeDialog="dialogStatus = false"></XmLogin>
   </header>
 </template>
 <script>
+  import XmLogin from './XmLogin.vue'
+
   export default {
     data () {
       return {
-        loginStatus: false
+        loginStatus: false,
+        dialogStatus: false
       }
     },
     methods: {
 
     },
     computed: {},
-    components: {}
+    components: {
+      XmLogin
+    }
   }
 </script>
 <!--scoped再当前作用域用-->
-<style scoped>
+<style scoped lang="less">
 .head-wrap{
   width: 100%;
   height: 140px;
-}
-.head-wrap .head-content{
+  .head-content{
   width: 1180px;
   height: 100%;
   background: #ffffff;
   margin: 0 auto;
   padding: 0 40px;
-}
-.head-wrap .head-content .head-logo{
-  float: left;
-  margin-top: 32.5px;
-}
-.head-wrap .head-content .head-login{
-  float: right;
-  height: 100%;
-}
-.head-wrap .head-content .head-login>.login-btn{
-  height: 100%;
-  font-size: 16px;
-  line-height: 140px;
-  color: #605f5f;
-}
-.head-wrap .head-content .head-login .login-info{
-  height: 100%;
-  line-height: 140px;
-  position: relative;
-}
-.head-wrap .head-content .head-login .login-info>a,.head-wrap .head-content .head-login .login-info>span{
-  float: left;
-  font-size: 16px;
-  color: #605f5f ;
-  margin-left: 10px;
-}
-.head-wrap .head-content .head-login .login-info span{
-  font-size: 14px;
-  font-weight: bold;
-}
-.head-wrap .head-content .head-login .login-info .cart-link{
-  font-size: 30px;
-}
-.head-wrap .head-content .head-login .login-info .cart-link:hover{
-  color: #d1434a;
-
-}
-.head-wrap .head-content .head-login .login-info .logout-btn:hover{
-  color: #d1434a;
-}
-.head-wrap .head-content .head-login .login-info .car-count{
-  position: absolute;
-  right: -15px;
-  top: 32px;
-  width: 30px;
-  height: 30px;
-  background: #D1434A;
-  border-radius: 50%;
-}
-.head-wrap .head-content .head-login .login-info .car-count a{
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  color: #FFFFFF;
+    .head-logo{
+      float: left;
+      margin-top: 32.5px;
+    }
+    .head-login{
+      float: right;
+      height: 100%;
+      .login-btn{
+        height: 100%;
+        font-size: 16px;
+        line-height: 140px;
+        color: #605f5f;
+      }
+      .login-info{
+        height: 100%;
+        line-height: 140px;
+        position: relative;
+        a,span{
+          float: left;
+          font-size: 16px;
+          color: #605f5f ;
+          margin-left: 10px;
+        }
+        span{
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .cart-link{
+          font-size: 30px;
+          &:hover{
+            color: #d1434a;
+          }
+        }
+        .logout-btn:hover{
+          color: #d1434a;
+        }
+        .car-count{
+          position: absolute;
+          right: -15px;
+          top: 32px;
+          width: 30px;
+          height: 30px;
+          background: #D1434A;
+          border-radius: 50%;
+          a{
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
