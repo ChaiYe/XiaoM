@@ -5,35 +5,56 @@
       <div class="close" @click="close">
         <i class="iconfont icon-cuowu"></i>
       </div>
-      <form action="">
+      <form>
         <div class="form-title">
           <h3>登录</h3>
         </div>
         <div class="form-group">
           <i class="iconfont icon-yonghu"></i>
-          <input type="text" placeholder="请输入用户名">
+          <input type="text" placeholder="请输入用户名" v-model="userName">
         </div>
         <div class="form-group">
           <i class="iconfont icon-suo"></i>
-          <input type="password" placeholder="请输入密码">
+          <input type="password" placeholder="请输入密码" v-model="userPwd">
         </div>
-        <button class="foom-submit">登录</button>
+        <button class="foom-submit" @click="formSubmit()">登录</button>
       </form>
     </div>
   </div>
 </template>
 <script>
+import {userLogin} from '../../api/index'
+import {mapActions,mapState} from 'vuex'
   export default {
     data () {
-      return {}
+      return {
+        userName: '',
+        userPwd: ''
+      }
     },
     methods: {
+      ...mapActions(['getUserInfo']),
       close () {
         this.$emit('closeDialog')
       }
+      ,
+     formSubmit () {
+       let {userName,userPwd} = this
+       this.getUserInfo({userName,userPwd})
+      }
     },
-    computed: {},
+    computed: {
+      ...mapState(['userInfo'])
+    },
     components: {
+    },
+    watch: {
+      userInfo (index) {
+        if (index) {
+          this.close()
+          this.$store.dispatch('getCartInfo')
+        }
+      }
     }
   }
 </script>

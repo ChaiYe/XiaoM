@@ -7,13 +7,13 @@
         </a>
       </h1>
       <div class="head-login">
-        <a href="#" class="login-btn" v-if="!loginStatus" @click="dialogStatus = true">登录</a>
-        <div class="login-info clearfix" v-if="loginStatus">
-          <span>sunyu</span>
-          <a href="#" class="logout-btn">退出</a>
+        <a href="#" class="login-btn" v-if="!userInfo" @click="dialogStatus = true">登录</a>
+        <div class="login-info clearfix" v-if="userInfo">
+          <span>{{userInfo}}</span>
+          <a href="#" class="logout-btn" @click="logoutAll()">退出</a>
           <a href="#" class="cart-link iconfont icon-icon"></a>
           <div class="car-count">
-            <a href="#">21</a>
+            <a href="#">{{goodsNum}}</a>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
 </template>
 <script>
   import XmLogin from './XmLogin.vue'
-
+  import {mapState,mapActions,mapGetters} from 'vuex'
   export default {
     data () {
       return {
@@ -32,11 +32,25 @@
       }
     },
     methods: {
+      ...mapActions(['userLogout']),
+      logoutAll () {
+        /*此处退出用户与购物车*/
+        this.userLogout()
+        this.$store.commit('RECIEVE_CART_INFO',{cartInfo:[]})
 
+      }
     },
-    computed: {},
+    computed: {
+      ...mapState(['userInfo','cartInfo']),
+      ...mapGetters(['goodsNum'])
+    },
     components: {
       XmLogin
+    },
+    watch: {
+      cartInfo (index) {
+//        this.goodsNum()
+      }
     }
   }
 </script>
@@ -96,10 +110,12 @@
           background: #D1434A;
           border-radius: 50%;
           a{
+            width: 100%;
             text-align: center;
             line-height: 30px;
             font-size: 16px;
             color: #FFFFFF;
+            margin-left: 0;
           }
         }
       }

@@ -40,3 +40,48 @@ response:
                 "productImg": "17.jpg"
             }
         ]
+2.用户登陆
+TYPE:POST
+URL: /users/login
+params: userName sunyu  userPwd 123456
+setRequestHeader :x-www-form-urlencoded
+response : {
+               "status": 0,
+               "msg": "",
+               "result": {
+                   "userName": "sunyu"
+               }
+           }
+3.用户登出
+TYPE:POST
+URL: /users/logout
+params:
+response: {
+              "status": "0",
+              "msg": "",
+              "result": ""
+          }
+4.获取购物车信息
+权限cookie 中 userId
+TYPE：GET
+URL:/users/carlist
+params:
+response: {
+           "status": "0",
+           "msg": "",
+           "result": [{Id:"0000000030"
+                       checked:1
+                       productId:19
+                       productImage:"19.jpg"
+                       productName:"小米6X 极简保护壳"
+                       productNum:2
+                       salePrice:"29"
+                       userId:1}]
+           }
+5.添加购物车
+权限cookie userId
+TYPE: POST
+URL:/goods/addCar
+params: productId  商品ID
+response: {
+}

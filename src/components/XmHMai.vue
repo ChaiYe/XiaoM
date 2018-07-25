@@ -40,7 +40,7 @@
               </div>
               <span>{{item.productName}}</span>
               <p>￥{{item.productPrice}}</p>
-              <a href="javascript:;">加入购物车</a>
+              <a href="javascript:;" @click="addCart(item)">加入购物车</a>
             </li>
           </ul>
         </section>
@@ -50,6 +50,7 @@
 </template>
 <script>
 import {getGoods} from '../api/index'
+import {mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -69,6 +70,7 @@ export default {
     this.getGoodsList()
   },
   methods: {
+    ...mapActions(['addCartGoods']),
     changeTab (index) {
       this.tabIndex = index
       this.priceLevel = index
@@ -83,11 +85,11 @@ export default {
       let {page,pageSize,orderFlag,priceLevel} = this
       if (!this.receiveStatus) return
       let data = await getGoods({page,pageSize,orderFlag,priceLevel})
-      console.log(data)
       if (!data.length) {
         this.receiveStatus = false
       }
       this.goods = this.goods.concat(data)
+
     },
     lazyLoad () {
       var clientH = document.documentElement.clientHeight||document.body.clientHeight
@@ -108,6 +110,9 @@ export default {
       this.n *= -1
       this.arrows = !this.arrows
       this.goods = this.goods.sort((a,b) => (a.productPrice - b.productPrice)*this.n)
+    },
+    addCart(item) {
+      this.addCartGoods(item)
     }
   },
   computed: {
@@ -117,10 +122,10 @@ export default {
   },
   mounted () {
     this.lazyLoad()
-  },
-  watch: {
-  }
+    this.$nextTick(()=>{
 
+    })
+  }
 }
 </script>
 <!--scoped再当前作用域用-->
