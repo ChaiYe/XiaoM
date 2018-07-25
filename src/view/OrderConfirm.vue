@@ -1,7 +1,15 @@
 <template>
-    <div>
-        <h3>订单详情</h3>
+  <div>
+    <XmHead></XmHead>
+    <XmCrunmbs>
+      <a href="javascript:;">确认订单</a>
+    </XmCrunmbs>
+
+    <div class="main">
+
       <div class="main_content">
+        <Orderheader></Orderheader>
+        <h3 class="alltitle">订单详情</h3>
         <table class="tb" cellspacing="0">
           <tr class="tb_header">
             <th colspan="2">商品</th>
@@ -122,21 +130,41 @@
         </div>
       </div>
     </div>
+    <XmFoot></XmFoot>
+  </div>
 </template>
 
 <script>
+  import XmCrunmbs from '../components/common/XmCrumbs.vue'
+  import XmHead from '../components/common/XmHead.vue'
+  import XmFoot from '../components/common/XmFoot.vue'
+  import  Orderheader from '../components/common/Orderheader'
     export default {
-        name: "OrderConfirm"
+      components: {
+        XmCrunmbs,
+        XmHead,
+        XmFoot,
+        Orderheader
+      },
     }
 </script>
 
 <style scoped>
+  .main{
+   padding: 24px;
+    background: #F5F7FC;
+  }
   li{
     list-style: none;
   }
   .main_content{
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
+  }
+  .alltitle{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
   }
 
   /*单个物品*/
@@ -205,6 +233,7 @@
     margin: 12px 0;
   }
   .btn{
+    text-align: center;
     background: brown;
     width: 100px;
     height: 40px;
