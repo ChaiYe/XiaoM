@@ -24,10 +24,10 @@
 <script>
   import XmLogin from './XmLogin.vue'
   import {mapState,mapActions,mapGetters} from 'vuex'
+  import {deleteCookie} from '../../utils/utils'
   export default {
     data () {
       return {
-        loginStatus: false,
         dialogStatus: false
       }
     },
@@ -35,9 +35,10 @@
       ...mapActions(['userLogout']),
       logoutAll () {
         /*此处退出用户与购物车*/
+        deleteCookie('userName')
+        deleteCookie('userId')
         this.userLogout()
         this.$store.commit('RECIEVE_CART_INFO',{cartInfo:[]})
-
       }
     },
     computed: {
@@ -46,11 +47,6 @@
     },
     components: {
       XmLogin
-    },
-    watch: {
-      cartInfo (index) {
-//        this.goodsNum()
-      }
     }
   }
 </script>

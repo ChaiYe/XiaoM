@@ -10,6 +10,11 @@ export default new Router({
       path: '/',
       name: 'xmhome',
       component: XmHome
-    }
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: XmHome
+    },
   ]
 });

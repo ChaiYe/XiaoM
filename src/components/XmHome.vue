@@ -11,11 +11,10 @@ import XmHead from './common/XmHead.vue'
 import XmCrumbs from './common/XmCrumbs.vue'
 import XmHMain from './XmHMai.vue'
 import XmFoot from './common/XmFoot.vue'
-import {getCookieAttr} from '../utils/utils'
+import {getCookie} from '../utils/utils'
 export default {
   data () {
     return {
-
     }
   },
   created () {
@@ -24,7 +23,7 @@ export default {
   methods: {
     loginStatus () {
       /*页面手动更新后，保持VUEX中有数据*/
-      let userName = getCookieAttr('userName')
+      let userName = getCookie('userName')
       userName = typeof userName === 'undefined'? '' :userName
       this.$store.commit('RECIEVE_USER_INFO',{userName})
       if (userName) {
