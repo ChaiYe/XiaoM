@@ -16,7 +16,6 @@ export default function (url, data = {}, type = 'GET',) {
       })
     }
     url += '?' + queryStr.substring(0,queryStr.lastIndexOf('&'))
-    console.log(url)
     promise = axios.get(url)
   }else if(type === 'POST'){
     promise = axios.post(url, data)

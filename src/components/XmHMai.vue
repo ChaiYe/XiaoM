@@ -36,7 +36,7 @@
           <ul class="product-list clearfix">
             <li v-for="(item, index) in goods" :key="index">
               <div class="p-picture">
-                  <img  :src="baseSrc+item.productImg" alt="小米6x">
+                  <img  v-lazy="baseSrc+item.productImg" alt="小米6x">
               </div>
               <span>{{item.productName}}</span>
               <p>￥{{item.productPrice}}</p>
@@ -93,15 +93,19 @@ export default {
     },
     lazyLoad () {
       var clientH = document.documentElement.clientHeight||document.body.clientHeight
+      var targerH = clientH/2
+      /*不获取了400,一个li的高度*/
+      var increaseH = 400*2
       var timer = null
       document.body.addEventListener('scroll',() => {
         let scrollT = document.documentElement.scrollTop||document.body.scrollTop;
-        if (scrollT > clientH-100) {
+        if (scrollT > targerH) {
+          targerH += increaseH
           clearInterval(timer)
           timer = setTimeout(() => {
             this.page++
             this.getGoodsList()
-          },1000)
+          },300)
 
         }
       })
@@ -113,6 +117,7 @@ export default {
     },
     addCart(item) {
       this.addCartGoods(item)
+      this.$emit('changeConfirmS')
     }
   },
   computed: {

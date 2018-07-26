@@ -26,7 +26,6 @@ export default {
   /*添加购物车*/
   async addCartGoods ({commit},{productId}) {
    let result = await addGoods({productId})
-    console.log(result)
     if (result.status === "0"){
       commit(RECIEVE_GOODS_ADD,{productId})
     }

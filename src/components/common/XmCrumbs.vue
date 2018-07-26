@@ -1,14 +1,15 @@
 <template>
   <div class="crumbs">
     <div class="crumbs-content">
-      <a href="#">主页</a>
+      <a href="javascript:;" @click="$router.push('home')">主页</a>
       <span>/</span>
-      <a href="#">商品</a>
+      <a href="javascript:;" @click="$router.push(curPath)">{{pageName}}</a>
     </div>
   </div>
 </template>
 <script>
   export default {
+    props:{'pageName': String,'curPath':String},
     data () {
       return {}
     },

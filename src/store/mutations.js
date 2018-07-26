@@ -8,7 +8,6 @@ export default {
   },
   [RECIEVE_GOODS_ADD] (state,{productId}){
     let flag = true
-    console.log('123')
     state.cartInfo.forEach(item => {
       if (item.productId === productId){
         item.productNum++
