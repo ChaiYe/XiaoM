@@ -24,9 +24,9 @@ import {mapState} from 'vuex'
 export default {
   data () {
     return {
-      confirmS:false
-    }
-  },
+        confirmS:false
+      }
+    },
   created () {
     this.loginStatus ()
   },

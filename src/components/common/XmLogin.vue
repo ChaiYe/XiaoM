@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import {userLogin} from '../../api/index'
 import {mapActions,mapState} from 'vuex'
   export default {
     data () {
@@ -45,8 +44,6 @@ import {mapActions,mapState} from 'vuex'
     },
     computed: {
       ...mapState(['userInfo'])
-    },
-    components: {
     },
     watch: {
       userInfo (index) {

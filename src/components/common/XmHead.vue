@@ -34,11 +34,11 @@
     methods: {
       ...mapActions(['userLogout']),
       logoutAll () {
-        /*退出用户与购物车*/
-        this.userLogout()
-        this.$store.commit('RECIEVE_CART_INFO',{cartInfo:[]})
+        /*此处退出用户与购物车*/
         deleteCookie('userName')
         deleteCookie('userId')
+        this.userLogout()
+        this.$store.commit('RECIEVE_CART_INFO',{cartInfo:[]})
       }
     },
     computed: {

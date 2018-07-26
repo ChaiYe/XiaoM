@@ -89,7 +89,6 @@ export default {
         this.receiveStatus = false
       }
       this.goods = this.goods.concat(data)
-
     },
     lazyLoad () {
       var clientH = document.documentElement.clientHeight||document.body.clientHeight
@@ -106,7 +105,6 @@ export default {
             this.page++
             this.getGoodsList()
           },300)
-
         }
       })
     },
@@ -120,16 +118,8 @@ export default {
       this.$emit('changeConfirmS')
     }
   },
-  computed: {
-  },
-  components: {
-
-  },
   mounted () {
     this.lazyLoad()
-    this.$nextTick(()=>{
-
-    })
   }
 }
 </script>
