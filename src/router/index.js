@@ -15,6 +15,10 @@ export default new Router({
       component: XmHome
     },
     {
+      path: '/home',
+      name: 'home',
+      component: XmHome
+    },{
       path: '/Address',
       name: 'Address',
       component: Address

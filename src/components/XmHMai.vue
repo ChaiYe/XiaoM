@@ -5,8 +5,8 @@
         <div class="sort-block">
           <span>排序:</span>
           <a href="#" class="sort-type">默认</a>
-          <a href="#" @click="arrows = !arrows">价格</a>
-          <span class="font-arrow" :class="{'rotate':arrows}">
+          <a href="javascript:;" @click="goodsSort()">价格</a>
+          <span class="font-arrow" :class="{'rotate':arrows}" >
             <i class="iconfont icon-totop"></i>
           </span>
         </div>
@@ -16,89 +16,32 @@
           <h3>价 格:</h3>
           <ul>
             <li>
-              <a href="javascript:;" :class="{'active':tabIndex === 0}" @click="changeTab(0)">全部</a>
+              <a href="javascript:;" :class="{'active':tabIndex === -1}" @click="changeTab(-1)">全部</a>
             </li>
             <li>
-              <a href="javascript:;" :class="{'active':tabIndex === 1}" @click="changeTab(1)">0.00-100.00</a>
+              <a href="javascript:;" :class="{'active':tabIndex === 0}" @click="changeTab(0)">0.00-100.00</a>
             </li>
             <li>
-              <a href="javascript:;" :class="{'active':tabIndex === 2}" @click="changeTab(2)">100.00-500.00</a>
+              <a href="javascript:;" :class="{'active':tabIndex === 1}" @click="changeTab(1)">100.00-500.00</a>
             </li>
             <li>
-              <a href="javascript:;" :class="{'active':tabIndex === 3}" @click="changeTab(3)">500.00-1000.00</a>
+              <a href="javascript:;" :class="{'active':tabIndex === 2}" @click="changeTab(2)">500.00-1000.00</a>
             </li>
             <li>
-              <a href="javascript:;" :class="{'active':tabIndex === 4}" @click="changeTab(4)">1000.00-8000.00</a>
+              <a href="javascript:;" :class="{'active':tabIndex === 3}" @click="changeTab(3)">1000.00-8000.00</a>
             </li>
           </ul>
         </section>
         <section class="main-right">
           <ul class="product-list clearfix">
-            <li>
+            <li v-for="(item, index) in goods" :key="index">
               <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
+                  <img  v-lazy="baseSrc+item.productImg" alt="小米6x">
               </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
+              <span>{{item.productName}}</span>
+              <p>￥{{item.productPrice}}</p>
+              <a href="javascript:;" @click="addCart(item)">加入购物车</a>
             </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-            <li>
-              <div class="p-picture">
-                  <img src="../../static/images/pic002.jpg" alt="小米6x">
-              </div>
-              <span>小米6X 极简保护壳</span>
-              <p>￥29.00</p>
-              <a href="javascript:;">加入购物车</a>
-            </li>
-
           </ul>
         </section>
       </section>
@@ -106,21 +49,79 @@
   </main>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        arrows:false,
-        tabIndex: 0
-      }
+import {getGoods} from '../api/index'
+import {mapActions} from 'vuex'
+export default {
+  data () {
+    return {
+      baseSrc: '../../static/images/',
+      arrows: false,
+      tabIndex: -1,
+      page: 0,
+      pageSize: 8,
+      orderFlag: true,
+      priceLevel: -1,
+      receiveStatus: true,
+      goods: [],
+      n: 1
+    }
+  },
+  created () {
+    this.getGoodsList()
+  },
+  methods: {
+    ...mapActions(['addCartGoods']),
+    changeTab (index) {
+      this.tabIndex = index
+      this.priceLevel = index
+      this.page = 0
+      this.goods = []
+      this.receiveStatus = true
+      this.n = 1
+      this.arrows = false
+      this.getGoodsList()
     },
-    methods: {
-      changeTab (index) {
-        this.tabIndex = index
+    async getGoodsList () {
+      let {page,pageSize,orderFlag,priceLevel} = this
+      if (!this.receiveStatus) return
+      let data = await getGoods({page,pageSize,orderFlag,priceLevel})
+      if (!data.length) {
+        this.receiveStatus = false
       }
+      this.goods = this.goods.concat(data)
     },
-    computed: {},
-    components: {}
+    lazyLoad () {
+      var clientH = document.documentElement.clientHeight||document.body.clientHeight
+      var targerH = clientH/2
+      /*不获取了400,一个li的高度*/
+      var increaseH = 400*2
+      var timer = null
+      document.body.addEventListener('scroll',() => {
+        let scrollT = document.documentElement.scrollTop||document.body.scrollTop;
+        if (scrollT > targerH) {
+          targerH += increaseH
+          clearInterval(timer)
+          timer = setTimeout(() => {
+            this.page++
+            this.getGoodsList()
+          },300)
+        }
+      })
+    },
+    goodsSort () {
+      this.n *= -1
+      this.arrows = !this.arrows
+      this.goods = this.goods.sort((a,b) => (a.productPrice - b.productPrice)*this.n)
+    },
+    addCart(item) {
+      this.addCartGoods(item)
+      this.$emit('changeConfirmS')
+    }
+  },
+  mounted () {
+    this.lazyLoad()
   }
+}
 </script>
 <!--scoped再当前作用域用-->
 <style scoped lang="less">
@@ -223,6 +224,7 @@
     padding: 20px;
     background: #ffffff;
     transition: .5s;
+    height: 396px;
     &:hover{
       box-shadow: 2px 2px 5px #ee7a23;
     }
