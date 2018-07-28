@@ -3,24 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
-/*import store from './store/index'
 import VueLazyload from 'vue-lazyload'
+import store from './store'
+// import useCookie from './utils/cookie'
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: '../static/images/err.jpg',
   loading: '../static/images/loading.gif',
   attempt: 1
-})*/
-/*import store from './store/index'
-Vue.config.productionTip = false*/
-import store from './store'
-import useCookie from './utils/cookie'
+})
 
 Vue.config.productionTip = false
 
-Vue.prototype.useCookie = useCookie;//全局变量
+// Vue.prototype.useCookie = useCookie;//全局变量
 
 /* eslint-disable no-new */
 new Vue({

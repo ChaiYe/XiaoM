@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <Header />
-    <Crumbs />
+    <Crumbs pageName="购物车" curPath="home" />
     <div class="section-cart">
       <h2>购物车</h2>
       <table>
@@ -49,7 +49,7 @@
             <td colspan="4">
               <span>合计：</span>
               <span class="subtotal">￥{{ cartTotal }}</span>
-              <button class="checkoutBtn" type="button">去结算</button>
+              <router-link :to="{ name: 'Address', params: {} }" class="checkoutBtn">去结算</router-link>
             </td>
           </tr>
         </tfoot>
