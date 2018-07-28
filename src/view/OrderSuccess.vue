@@ -1,8 +1,7 @@
 <template>
   <div>
     <XmHead></XmHead>
-    <XmCrunmbs>
-      <a href="javascript:;">订单结果</a>
+    <XmCrunmbs pageName="订单结果" curPath="/OrderSuccess">
     </XmCrunmbs>
 
       <div class="main">
@@ -16,15 +15,15 @@
           <p>您的订单已完成！</p>
         </div>
         <div class="order_details">
-          <span>订单号：3054201807251141238</span>
-          <span>订单合计：￥3,901.00</span>
+          <span>订单号：{{orderId}}</span>
+          <span>订单合计：￥{{orderCount}}</span>
         </div>
         <div class="btn_content">
           <div class="btn to_car">
-            <route-link to="/">购物车</route-link>
+            <route-link to="{path:'cart'}">购物车</route-link>
           </div>
           <div class="btn to_list">
-            <route-link to="/">商品列表</route-link>
+            <route-link to="{path:'home'}">商品列表</route-link>
           </div>
         </div>
       </div>
@@ -38,17 +37,42 @@
   import XmHead from '../components/common/XmHead.vue'
   import XmFoot from '../components/common/XmFoot.vue'
   import  Orderheader from '../components/common/Orderheader'
+  import axios from 'axios'
   export default {
+    data(){
+      return {
+        orderId:'123456',
+        orderCount:'123456'
+      }
+    },
     components: {
       XmCrunmbs,
       XmHead,
       XmFoot,
       Orderheader
     },
+    mounted(){
+      this.init();
+    },
+    methods:{
+      init(){
+
+        this.orderId=this.$route.query.orderId;
+        axios.get('/users/getOrderTotal',{
+            params:{orderId:this.orderId}
+        }).then((response)=>{
+          var res=response.data;
+          if(res.status=='0'){
+            this.orderCount=res.result.OrderTotal;
+          }
+        })
+      }
+    }
+
   }
 </script>
 
-<style scoped>
+<style lang="less">
 
   .main *{
     text-align: center;
